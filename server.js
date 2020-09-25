@@ -21,16 +21,15 @@ mongoose
   .then(() => console.log('db connected'));
 
 const port = process.env.PORT || 4000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`app running on port ${port}`);
 });
 
 process.on('SIGTERM', () => {
-  console.log('SIGTERM SHUTTING DOWN GRACEFULLY ✌✌✌✌')
+  console.log('SIGTERM SHUTTING DOWN GRACEFULLY ✌✌✌✌');
   server.close(() => {
-    console.log('💣💣💣💣 process terminated')
-  })
-})
-
+    console.log('💣💣💣💣 process terminated');
+  });
+});
 
 //test
