@@ -13,7 +13,7 @@ const filterObj = (obj, ...allowedFields) => {
 };
 
 exports.createTransaction = catchAsync(async (req, res, next) => {
-  const filteredBody = filterObj(req.body, 'name', 'amount');
+  const filteredBody = filterObj(req.body, 'name', 'amount', 'description');
   filteredBody.account = req.user.account.id;
 
   //1) Check if the request amount is larger than the balance in the account

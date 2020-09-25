@@ -11,6 +11,14 @@ const transactionSchema = mongoose.Schema(
       type: Number,
       required: [true, 'Please Enter amount to send'],
     },
+    description: {
+      type: String,
+      default: 'No description',
+    },
+    date: {
+      type: Date,
+      default: new Date(),
+    },
     account: {
       type: mongoose.Schema.ObjectId,
       required: [true, 'You must enter an account to perform a transaction'],
