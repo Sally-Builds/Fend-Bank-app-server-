@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-// const cors = require('cors');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const userRouter = require('./routes/userRoutes');
@@ -11,19 +11,16 @@ const globalErrorHandler = require('./controller/errorController');
 
 const app = express();
 
-app.enable('trust proxy')
+app.enable('trust proxy');
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 //middleware
-//1) Global middleware
-// app.use(
-//   cors({
-//     origin: 'http://127.0.0.1:4000',
-//     credentials: true,
-//   })
-// );
+// 1) Global middleware
+app.use(cors());
+
+app.options('*', cors());
 
 //body parser, reading data from body into req.body
 app.use(express.json());
