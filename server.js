@@ -25,4 +25,12 @@ app.listen(port, () => {
   console.log(`app running on port ${port}`);
 });
 
+process.on('SIGTERM', () => {
+  console.log('SIGTERM SHUTTING DOWN GRACEFULLY ✌✌✌✌')
+  server.close(() => {
+    console.log('💣💣💣💣 process terminated')
+  })
+})
+
+
 //test
