@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 // const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 const userRouter = require('./routes/userRoutes');
 const accountRouter = require('./routes/accountRoutes');
 const transactionRouter = require('./routes/transactionRoutes');
@@ -25,6 +26,9 @@ app.set('views', path.join(__dirname, 'views'));
 //body parser, reading data from body into req.body
 app.use(express.json());
 app.use(cookieParser());
+
+//compress responses and request
+app.use(compression());
 
 //testing middleware
 app.use((req, res, next) => {
