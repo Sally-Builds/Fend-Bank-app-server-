@@ -42,12 +42,11 @@ exports.signup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     name: req.body.name,
     password: req.body.password,
-    confirmPassword: req.body.password,
-    role: req.body.role,
+    confirmPassword: req.body.confirmPassword,
   });
   const url = `${req.protocol}://${req.get('host')}/me`;
-  createSendToken(newUser, 201, req, res);
   await new Email(newUser, url).sendWelcome();
+  createSendToken(newUser, 201, req, res);
 });
 
 //login user
@@ -64,11 +63,13 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('incorrect user or password', 401));
   }
 
-  const token = signToken(user._id);
-  res.status(200).json({
-    status: 'successful',
-    token,
-  });
+  createSendToken(user, 200, req, res);
+
+  // const token = signToken(user._id);
+  // res.status(200).json({
+  //   status: 'successful',
+  //   token,
+  // });
 });
 
 //Logout user
