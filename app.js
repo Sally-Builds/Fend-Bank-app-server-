@@ -39,7 +39,8 @@ app.use((req, res, next) => {
   next();
 });
 //serving static files
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(`${path.join(__dirname)}/public/img`));
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/accounts', accountRouter);
