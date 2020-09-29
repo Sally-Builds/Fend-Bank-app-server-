@@ -17,7 +17,7 @@ const transactionSchema = mongoose.Schema(
     },
     date: {
       type: Date,
-      default: new Date(),
+      default: Date.now(),
     },
     account: {
       type: mongoose.Schema.ObjectId,
