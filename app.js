@@ -6,6 +6,7 @@ const compression = require('compression');
 const userRouter = require('./routes/userRoutes');
 const accountRouter = require('./routes/accountRoutes');
 const transactionRouter = require('./routes/transactionRoutes');
+const testRouter = require('./routes/testRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controller/errorController');
 
@@ -45,6 +46,7 @@ app.use('/images', express.static(`${path.join(__dirname)}/public/img`));
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/accounts', accountRouter);
 app.use('/api/v1/transactions', transactionRouter);
+app.use('/api/v1/tests', testRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
