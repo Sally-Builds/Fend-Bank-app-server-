@@ -20,7 +20,7 @@ router.patch(
 );
 
 router.get('/me', userController.getMe, userController.getUser);
-router.get('/updatepassword', authController.updatePassword);
+router.patch('/updatepassword', authController.updatePassword);
 router.delete('/deleteMe', userController.deleteMe);
 
 router.use(authController.restrictTo('admin'));
