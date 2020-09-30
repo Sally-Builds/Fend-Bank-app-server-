@@ -1,6 +1,7 @@
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const Account = require('../models/accountModel');
+const pusher = require('../utils/pusher');
 
 //create account
 exports.createAccount = catchAsync(async (req, res, next) => {
@@ -9,6 +10,12 @@ exports.createAccount = catchAsync(async (req, res, next) => {
   const account = await Account.create(req.body);
   //update the user account
   await account.updateUserAccount(account.id, account.user);
+
+  pusher.trigger('account', 'createAccount', {
+    data: {
+      account,
+    },
+  });
 
   res.status(201).json({
     status: 'success',
@@ -26,6 +33,12 @@ exports.getAccount = catchAsync(async (req, res, next) => {
   const account = await Account.findById(req.params.id);
 
   if (!account) return next(new AppError('No account found with that id', 400));
+
+  pusher.trigger('account', 'getAccount', {
+    data: {
+      account,
+    },
+  });
 
   res.status(200).json({
     status: 'success',

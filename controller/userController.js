@@ -3,6 +3,7 @@ const sharp = require('sharp');
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const pusher = require('../utils/pusher');
 
 const multerStorage = multer.memoryStorage();
 
@@ -69,6 +70,12 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     runValidators: true,
   });
 
+  pusher.trigger('user', 'updateUser', {
+    data: {
+      updatedUser,
+    },
+  });
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -126,6 +133,12 @@ exports.getMe = (req, res, next) => {
 //get single user
 exports.getUser = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id);
+
+  pusher.trigger('user', 'getUser', {
+    data: {
+      user,
+    },
+  });
 
   res.status(201).json({
     status: 'successful',
