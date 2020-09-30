@@ -18,7 +18,7 @@ exports.createTest = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllTests = catchAsync(async (req, res, next) => {
-  const tests = Test.find({});
+  const tests = Test.find();
   pusher.trigger('test', 'getAllTests', {
     results: tests.length,
     data: {
