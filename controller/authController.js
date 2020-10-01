@@ -178,7 +178,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     await new Email(user, resetURL).sendPasswordReset();
     res.status(200).json({
       status: 'success',
-      message: 'Token succesfully sent to email',
+      message: 'Token succesfully sent to email. Token expires in 10mins',
     });
   } catch (err) {
     user.passwordResetToken = undefined;
