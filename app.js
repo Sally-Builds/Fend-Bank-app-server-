@@ -21,6 +21,7 @@ app.set('views', path.join(__dirname, 'views'));
 // 1) Global middleware
 app.use(
   cors({
+    origin: true,
     credentials: true,
   })
 );
