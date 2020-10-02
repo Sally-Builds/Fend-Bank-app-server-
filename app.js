@@ -21,11 +21,12 @@ app.set('views', path.join(__dirname, 'views'));
 // 1) Global middleware
 app.use(
   cors({
+    origin: 'http://fendbank.epizy.com',
     credentials: true,
   })
 );
 
-app.options('*', cors());
+// app.options('*', cors());
 
 //body parser, reading data from body into req.body
 app.use(express.json());
