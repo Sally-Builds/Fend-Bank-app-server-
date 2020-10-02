@@ -181,7 +181,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
       message: 'Token succesfully sent to email. Token expires in 10mins',
     });
   } catch (err) {
-    console.log(err);
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });

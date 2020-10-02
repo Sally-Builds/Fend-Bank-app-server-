@@ -25,7 +25,6 @@ const handleJWTExpiredError = () =>
   new AppError('Your token has expired. please login again', 401);
 
 const sendErrorDev = (err, res) => {
-  console.log(err);
   res.status(err.statusCode).json({
     status: err.status,
     message: err.message,
@@ -57,7 +56,6 @@ module.exports = (err, req, res, next) => {
 
   if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err, res);
-    console.log(err);
   } else if (process.env.NODE_ENV === 'production') {
     let error = err;
     if (err instanceof mongoose.Error.CastError) {
