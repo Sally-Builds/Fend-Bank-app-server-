@@ -3,7 +3,6 @@ const sharp = require('sharp');
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const pusher = require('../utils/pusher');
 
 const multerStorage = multer.memoryStorage();
 
@@ -62,18 +61,13 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
   // 2) Filtered out unwanted fields names that are not allowed to be updated
   const filteredBody = filterObj(req.body, 'name', 'email');
+  console.log(req.body);
   if (req.file) filteredBody.photo = req.file.filename;
 
   // 3) Update user document
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true,
-  });
-
-  pusher.trigger('user', 'updateUser', {
-    data: {
-      updatedUser,
-    },
   });
 
   res.status(200).json({
@@ -133,12 +127,6 @@ exports.getMe = (req, res, next) => {
 //get single user
 exports.getUser = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id);
-
-  pusher.trigger('user', 'getUser', {
-    data: {
-      user,
-    },
-  });
 
   res.status(201).json({
     status: 'successful',

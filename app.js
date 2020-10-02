@@ -6,7 +6,6 @@ const compression = require('compression');
 const userRouter = require('./routes/userRoutes');
 const accountRouter = require('./routes/accountRoutes');
 const transactionRouter = require('./routes/transactionRoutes');
-const testRouter = require('./routes/testRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controller/errorController');
 
@@ -19,34 +18,33 @@ app.set('views', path.join(__dirname, 'views'));
 
 //middleware
 // 1) Global middleware
-// app.use(
-//   cors({
-//     origin: 'http://fendbank.epizy.com',
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    credentials: true,
+  })
+);
 
-// app.options('*', cors());
+app.options('*', cors());
 
 //body parser, reading data from body into req.body
 app.use(express.json());
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Orign, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-  if (req.method === 'OPTIONS') {
-    res.header(
-      'Access-Control-Allow-Methods',
-      'PUT POST PATCH DELETE POST GET'
-    );
-    return res.status.json({});
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Orign, X-Requested-With, Content-Type, Accept, Authorization'
+//   );
+//   if (req.method === 'OPTIONS') {
+//     res.header(
+//       'Access-Control-Allow-Methods',
+//       'PUT POST PATCH DELETE POST GET'
+//     );
+//     return res.status.json({});
+//   }
+//   next();
+// });
 
 //compress responses and request
 app.use(compression());
@@ -63,7 +61,6 @@ app.use('/images', express.static(`${path.join(__dirname)}/public/img`));
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/accounts', accountRouter);
 app.use('/api/v1/transactions', transactionRouter);
-app.use('/api/v1/tests', testRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

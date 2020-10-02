@@ -2,7 +2,6 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const Transaction = require('../models/transactionModel');
 const { calculate } = require('../utils/transactions');
-const pusher = require('../utils/pusher');
 
 //fiter the data the user can send
 const filterObj = (obj, ...allowedFields) => {
@@ -35,12 +34,6 @@ exports.createTransaction = catchAsync(async (req, res, next) => {
   //3) if all is successfull then create the transaction
 
   const transaction = await Transaction.create(filteredBody);
-
-  pusher.trigger('transaction', 'createTransaction', {
-    data: {
-      transaction,
-    },
-  });
 
   res.status('200').json({
     status: 'success',
