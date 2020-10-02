@@ -13,8 +13,8 @@ const app = express();
 
 app.enable('trust proxy');
 
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'pug');
+// app.set('views', path.join(__dirname, 'views'));
 
 //middleware
 // 1) Global middleware
@@ -40,15 +40,15 @@ app.use((req, res, next) => {
 });
 //serving static files
 // app.use(express.static(path.join(__dirname, 'public')));
-// app.use('/images', express.static(`${path.join(__dirname)}/public/img`));
+app.use('/images', express.static(`${path.join(__dirname)}/public/img`));
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/accounts', accountRouter);
 app.use('/api/v1/transactions', transactionRouter);
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(`${__dirname}public`));
-  app.get(/.*/, (req, res) => res.sendFile(`${__dirname}public/index`));
+  app.use(express.static(`${__dirname}/public/`));
+  app.get(/.*/, (req, res) => res.sendFile(`${__dirname}/public/index.html`));
 }
 
 // app.all('*', (req, res, next) => {
