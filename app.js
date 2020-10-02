@@ -19,18 +19,33 @@ app.set('views', path.join(__dirname, 'views'));
 
 //middleware
 // 1) Global middleware
-app.use(
-  cors({
-    origin: 'http://fendbank.epizy.com',
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: 'http://fendbank.epizy.com',
+//     credentials: true,
+//   })
+// );
 
 // app.options('*', cors());
 
 //body parser, reading data from body into req.body
 app.use(express.json());
 app.use(cookieParser());
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Orign, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  if (req.method === 'OPTIONS') {
+    res.header(
+      'Access-Control-Allow-Methods',
+      'PUT POST PATCH DELETE POST GET'
+    );
+    return res.status.json({});
+  }
+});
 
 //compress responses and request
 app.use(compression());
