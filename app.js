@@ -45,6 +45,7 @@ app.use((req, res, next) => {
     );
     return res.status.json({});
   }
+  next();
 });
 
 //compress responses and request
